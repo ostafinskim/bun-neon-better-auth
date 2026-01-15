@@ -1,5 +1,5 @@
 import { auth } from '@/lib/auth'
-import { routeNotFound } from '@/middleware'
+import { errorHandler, notFoundHandler } from '@/middleware'
 import { toNodeHandler } from 'better-auth/node'
 import cors from 'cors'
 import express from 'express'
@@ -26,10 +26,11 @@ app.get('/health', (req, res) => {
 	res.status(200).json({ message: 'ok' })
 })
 
-// not found
-app.use(routeNotFound)
+// Not found handler
+app.use(notFoundHandler)
 
-// error
+// Error handler
+app.use(errorHandler)
 
 async function main() {
 	try {

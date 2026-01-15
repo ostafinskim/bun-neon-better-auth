@@ -1,3 +1,11 @@
-import type { Request, Response } from "express";
+import { NotFoundError } from "@/utils/errors";
+import type { NextFunction, Request, Response } from "express";
 
-export const routeNotFound = (req: Request, res: Response) => res.status(404).send('Route does not exists.')
+// Middleware to catch 404 - Not Found routes
+export function notFoundHandler(req: Request, res: Response, next: NextFunction) {
+	const error = new NotFoundError('Route not found', {
+		path: req.path,
+		method: req.method
+	});
+	next(error);
+}
